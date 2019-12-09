@@ -1,40 +1,51 @@
-import io from 'socket.io-client';
-import {
-    auth,
-    db,
-    normalizer,
-    storage,
-    types
-} from './src/sockets';
-import {
-    globals,
-    watchers
-} from './src/services';
+import io from "socket.io-client";
+import { auth, db, normalizer, storage, types } from "./src/sockets";
+import { globals, watchers } from "./src/services";
 
-export default {
-    initializeApp(query) {
-        return new Promise(function (resolve, reject) {
+const moncket = {
+    initializeApp(config) {
+        globals.set("config", config);
+    },
+
+    connect(_callback) {
+        return new Promise(function(resolve, reject) {
             try {
-                globals.set('config', query);
-                globals.set('socket', io(query.databaseURL, { query }));;
-                globals.get('socket').on('reconnect', watchers.resendAllWatchers);
-                resolve(globals.get('socket'));
+                globals.set("socket", io(globals.get("config").databaseURL, { query: globals.get("config") }));
+                globals.get("socket").on("reconnect", watchers.resendAllWatchers);
+                moncket.onConnect(_callback);
+                resolve(globals.get("socket"));
             } catch (error) {
                 reject(error);
             }
         });
     },
 
-    socket() {
-        return globals.get('socket');
+    disconnect(_callback) {
+        return new Promise(function(resolve, reject) {
+            try {
+                globals.get("socket").disconnect();
+                moncket.onDisconnect(_callback);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
     },
 
     onConnect(_callback) {
-        globals.get('socket').on('connect', () => setTimeout(_callback, 1000));
+        try {
+            if (_callback instanceof Function) globals.get("socket").on("connect", () => setTimeout(_callback, 1000));
+        } catch (error) {
+            console.error("moncket.onConnect", "There is open connection with the server.", error.message);
+        }
     },
 
     onDisconnect(_callback) {
-        globals.get('socket').on('disconnect', _callback);
+        try {
+            if (_callback instanceof Function) globals.get("socket").on("disconnect", _callback);
+        } catch (error) {
+            console.error("moncket.onDisconnect", "There is open connection with the server.", error.message);
+        }
     },
 
     auth,
@@ -42,5 +53,6 @@ export default {
     normalizer,
     storage,
     types
-
 };
+
+export default moncket;
