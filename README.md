@@ -128,3 +128,25 @@ let e = moncket.db().transaction({
 e.products //array of products
 e.groups //array of groups
 ````
+
+### Watch
+The watch method enables easy creation of changeStreams, establishing real-time communication with all changes made to the database.
+
+#### Create a listener
+````
+this.watcher = moncket.db().watch({
+    collection: "users",
+    pipeline: [
+        {
+            $match: { name: "John Snow" }
+        }
+    ],
+    success: (users) => console.log(users),
+    error: (error) => console.debug(error)
+});
+````
+
+#### Remove a listener
+````
+this.watcher.removeListener();
+````
