@@ -172,7 +172,7 @@ let deleted = await moncket.storage("images/my-image.jpg").delete();
 ## Types
 Since all external communication from the library is done through JSON's some data types end up being lost. For this reason we have implemented some proper typing methods.
 
-#### ObjectID
+#### ObjectId
 ````
 moncket.types.ObjectId("5dfd07e63e829907641b800c");
 ````
