@@ -169,6 +169,54 @@ let list = await moncket.storage("images").list();
 let deleted = await moncket.storage("images/my-image.jpg").delete();
 ````
 
+## Types
+Since all external communication from the library is done through JSON's some data types end up being lost. For this reason we have implemented some proper typing methods.
+
+#### ObjectID
+````
+moncket.types.ObjectId("5dfd07e63e829907641b800c");
+````
+
+#### Date
+````
+moncket.types.Date("2019-12-20T17:45:00.000+00:00");
+````
+
+#### Double
+````
+moncket.types.Double(2.5)
+````
+
+#### Int32
+````
+moncket.types.Int32(2542);
+````
+
+#### Long
+````
+moncket.types.Long(72567286);
+````
+
+#### Timestamp
+````
+moncket.types.Timestamp(1577468564769);
+````
+
+#### ServerDatetime
+````
+moncket.types.ServerDatetime();
+````
+
+#### ServerTimestamp
+````
+moncket.types.ServerTimestamp();
+````
+
+#### Md5
+````
+moncket.types.Md5("123456");
+````
+
 ## Authors
 
 * **Marco Tavares** - *Initial work* - [marcotvrs](https://github.com/marcotvrs)
