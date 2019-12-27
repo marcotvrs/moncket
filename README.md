@@ -150,3 +150,29 @@ this.watcher = moncket.db().watch({
 ````
 this.watcher.removeListener();
 ````
+
+## Storage
+The library also offers file storage service. To do this simply pass the directory as argument and the file to be stored.
+
+#### Upload
+````
+let e = await moncket.storage("images").upload({ file, filename });
+````
+
+#### List
+````
+let list = await moncket.storage("images").list();
+````
+
+#### Delete
+````
+let deleted = await moncket.storage("images/my-image.jpg").delete();
+````
+
+## Authors
+
+* **Marco Tavares** - *Initial work* - [marcotvrs](https://github.com/marcotvrs)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
